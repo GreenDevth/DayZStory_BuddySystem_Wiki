@@ -35,6 +35,7 @@ When a player interacts with a Satellite Terminal (`DZS_SatelliteTerminal` or `L
 | `MaxInsurancePolicies` | `int` | `3` | `0` = Unlimited<br>`1+` = Max stackable policies | Maximum number of Digital Insurance policies a player can hold at one time. |
 | `InsuranceMenuIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/shield_64x64.edds"` | `.edds` or `.paa` path | Shield icon displayed inside the `BUDDY INSURANCE POLICY` view. |
 | `InsuranceHUDIconPath` | `string` | `"DayZStory_Buddy_Satellite/GUI/Icons/insurance.edds"` | `.edds` or `.paa` path | Badge icon displayed on the bottom-right player HUD. |
+| `EditorJsonFiles` | `array<string>` | `[]` | List of `.json` filenames in `$profile:DayZStory/AiBuddy/DLC/Satellite/Terminals/` | **DayZ Editor `.json` Scene Import:** Automatically spawns all `DZS_SatelliteTerminal` objects and decorative `.p3d` props from exported DayZ Editor JSON files. (Tip: If you place an `eAI_SupplyCrate` near a terminal in DayZ Editor, the system automatically uses its exact position/rotation as that terminal's `ClaimBoxPosition` without spawning an empty dummy crate!). |
 
 ---
 

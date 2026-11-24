@@ -37,6 +37,7 @@
 | `MaxInsurancePolicies` | `int` | `3` | `0` = ไม่จำกัดจำนวนสะสม<br>`1` ขึ้นไป = จำนวนสูงสุดที่ซื้อเก็บไว้ได้ | จำนวนกรมธรรม์สูงสุดที่ผู้เล่น 1 คนสามารถซื้อสะสมไว้ล่วงหน้าได้ (ทุกครั้งที่กดเคลมของจะหัก 1 ฉบับ) |
 | `InsuranceMenuIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/shield_64x64.edds"` | พาธไฟล์ `.edds` หรือ `.paa` | ไอคอนโล่ประกันภัยที่แสดงในหน้าเมนู `BUDDY INSURANCE POLICY` |
 | `InsuranceHUDIconPath` | `string` | `"DayZStory_Buddy_Satellite/GUI/Icons/insurance.edds"` | พาธไฟล์ `.edds` หรือ `.paa` | ไอคอนประกันภัยที่แสดงบนหน้าจอ HUD มุมขวาล่างของผู้เล่น |
+| `EditorJsonFiles` | `array<string>` | `[]` | รายชื่อไฟล์ `.json` ในโฟลเดอร์ `$profile:DayZStory/AiBuddy/DLC/Satellite/Terminals/` | **รองรับการนำเข้าฉากและตำแหน่งตู้ดาวเทียมจาก DayZ Editor (`.json`):** เสกทั้งตู้ดาวเทียม (`DZS_SatelliteTerminal`) และพร็อพตกแต่งทั้งหมดในไฟล์ (หากในไฟล์ Editor มีการวางกล่อง `eAI_SupplyCrate` ไว้ใกล้ตู้ ระบบจะดึงพิกัดกล่องนั้นมาเป็น `ClaimBoxPosition` ของตู้ให้อัตโนมัติโดยไม่เสกกล่องเปล่าค้างไว้!) |
 
 ---
 
