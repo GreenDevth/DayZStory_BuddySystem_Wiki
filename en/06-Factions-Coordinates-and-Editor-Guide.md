@@ -72,16 +72,21 @@ If you use custom Expansion AI factions for safezone guards or quest NPCs, add t
 
 ---
 
-## 4. Importing Cemetery Scenes from DayZ Editor (`.json`)
+## 4. Importing Scenes, Targets & NPCs from DayZ Editor (`"EditorJsonFiles": []`) Across All Modules
 
-To build a custom cemetery scene with multiple excavatable graves in **DayZ Editor**:
-1. Place decorative props and as many **`DZS_BuddyGrave`** objects as you want within `CemeteryRadius` of your Gravedigger NPC.
-2. Export the scene from DayZ Editor as a **`.json`** file (e.g., `cherno_cemetery.json`).
-3. Copy `cherno_cemetery.json` into:
-   `$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\cherno_cemetery.json`
-4. Add the filename to `"EditorJsonFiles"` in `$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Setting.json`:
-   ```json
-   "EditorJsonFiles": [
-       "cherno_cemetery.json"
-   ]
-   ```
+All three world-spawning modules (**Contractors**, **Gravedigger**, and **Satellite**) support `"EditorJsonFiles": []` in their respective `Setting.json` files:
+
+- **When `"EditorJsonFiles": []` is empty:** The module loads default settings and only spawns entries configured with a non-zero `Position` in `Setting.json` (any entry with `"Position": [0.0, 0.0, 0.0]` is safely skipped).
+- **When filenames are listed in `"EditorJsonFiles": ["my_scene.json"]`:** The spawner parses the exported **DayZ Editor `.json`** file and automatically distinguishes between **decorative props**, **interactive targets**, and **NPCs** based on each object's classname (`"name"`):
+
+### How DayZ Editor Objects Are Resolved Per Module
+
+| Module & Scene Folder | Decorative Props | Interactive Targets & Markers in DayZ Editor | NPCs in DayZ Editor |
+| :--- | :--- | :--- | :--- |
+| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | Tables, chairs, tents, and `.p3d` static objects are spawned as scene props. | *(The Contractor NPC itself is the interaction target)* | • **Contractor NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Boris`). It is automatically spawned as an immortal stationary **Contractor NPC** in `eAIFactionContractors`, inheriting `Loadout`, `EmoteID`, and `Name` from `Contractors[0]` in `Setting.json`. |
+| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | Cemetery gates, fences, lamps, and `.p3d` static objects are spawned as scene props. | • **Excavation Graves:** Place as many **`DZS_BuddyGrave`** objects as desired within `CemeteryRadius`. Players can excavate any of them using a borrowed shovel (`ActionDigBuddyGrave`). | • **Gravedigger NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Rolf`). It is automatically spawned as an immortal stationary **Gravedigger NPC** in `eAIFactionGravediggers`, inheriting `Loadout`, `EmoteID`, and `Name` from `Gravediggers[0]` in `Setting.json`. |
+| **3. Satellite**<br>`$profile:\DayZStory\AiBuddy\DLC\Satellite\Terminals\` | Communication tents, antennas, and `.p3d` static objects are spawned as scene props. | • **Satellite Terminal:** Place **`DZS_SatelliteTerminal`** or **`Land_Radio_PanelPAS`** to register an interactive Satellite Terminal.<br>• **Claim Box Marker:** Place an **`eAI_SupplyCrate`** within 50m of a terminal in DayZ Editor. The system **does not spawn an empty crate**; instead, it records that exact position and orientation as the nearest terminal's `ClaimBoxPosition`! | *(No NPCs)* |
+
+> [!TIP]
+> **Using DayZ Editor Exclusively Without Duplicate Spawns:**
+> If you place your NPCs and Targets inside a DayZ Editor `.json` file, simply set `"Position": [0.0, 0.0, 0.0]` on the first entry in `Contractors[]`, `Gravediggers[]`, or `Terminals[]` in `Setting.json`. The `[0,0,0]` entry won't spawn at the corner of the map, while its `"Loadout"`, `"EmoteID"`, and `"Name"` will still serve as the template for NPCs spawned from your DayZ Editor JSON!

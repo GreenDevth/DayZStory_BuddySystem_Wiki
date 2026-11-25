@@ -15,7 +15,8 @@
 | `Enable` | `bool` (`0`/`1`) | `1` | `1` = สปอน NPC นายหน้าตามรายการ `Contractors`, `0` = ปิดการสปอนทั้งหมด |
 | `IsPassive` | `bool` (`0`/`1`) | `0` | • `0` = NPC นายหน้าจะช่วยยิงซอมบี้หรือป้องกันตัวเมื่อมีภัยคุกคาม<br>• `1` = **โหมดสงบ 100% (Passive)** ยืนประจำจุดอย่างเดียว ไม่ชักปืนยิงใครเลย (เหมาะกับ Safezone ที่มีระบบ Godmode อยู่แล้ว) |
 | `SpawnRadius` | `float` | `5.0` | รัศมีรอบจุดสปอน (เมตร) |
-| `Contractors[].Name` | `string` | `"Buddy Contractor"` | ชื่อของ NPC นายหน้า |
+| `EditorJsonFiles` | `array<string>` | `[]` | รายชื่อไฟล์ `.json` ที่ส่งออกจาก **DayZ Editor** และวางไว้ในโฟลเดอร์ `$profile:DayZStory/AiBuddy/DLC/Contractors/Scenes/` (หรือโฟลเดอร์ `Contractors/`)<br>• หากปล่อยว่าง `[]`: ระบบจะเสกเฉพาะรายการใน `Contractors[]` ที่มีพิกัด `Position`<br>• หากใส่ชื่อไฟล์: ระบบจะเสกทั้งพร็อพตกแต่งฉาก (`.p3d` / Object) และหากในไฟล์ Editor มีการวางคลาสตัวละคร `eAI_*` ไว้ ระบบจะเสกเป็น **NPC Contractor** พร้อมใส่ Faction, อมตะ, `Loadout` และ `EmoteID` (ดึงค่าแม่แบบจาก `Contractors[0]`) ให้อัตโนมัติ! |
+| `Contractors[].Name` | `string` | `"Buddy Contractor"` | ชื่อของ NPC นายหน้า (และใช้เป็นชื่อเริ่มต้นให้กับ NPC ที่เสกจาก `EditorJsonFiles` หากใน Editor ไม่ได้ตั้ง `customString`) |
 | `Contractors[].Position` | `[x, y, z]` | `[5120.0, 0.0, 5120.0]` | **พิกัด精确 (Exact 3D Position)** ที่วาง NPC นายหน้า (ระบบจะวางตามค่า X, Y, Z ที่กรอกโดยตรง สามารถวางบนชั้น 2 ของอาคารหรือบนพื้นไม้ได้โดยไม่จมดิน) หากเป็น `[0, 0, 0]` จะข้ามไม่สปอน |
 | `Contractors[].Orientation` | `[yaw, pitch, roll]` | `[0.0, 0.0, 0.0]` | ทิศทางที่ NPC หันหน้า (มุม Yaw `0` - `360` องศา) |
 | `Contractors[].Loadout` | `string` | `"HumanLoadout"` | ชื่อไฟล์ชุดแต่งกายของ NPC จาก `ExpansionMod/Loadouts/` (ใส่แบบมีหรือไม่มี `.json` ก็ได้) |
@@ -47,7 +48,7 @@
 | `RecoveryEconomyMode` | `int` | `-1` | สกุลเงินที่ใช้จ่ายค่าขุดกู้ของ (`-1` = ตาม `BuddySettings.json`, `0` = Hardline Rep, `1` = eWallet, `2` = Bank, `3` = Free) |
 | `ShovelBorrowCost` | `int` | `250` | ค่ายืมพลั่วจาก NPC สัปเหร่อ (`0` = ยืมฟรี) |
 | `ShovelEconomyMode` | `int` | `-1` | สกุลเงินที่ใช้จ่ายค่ายืมพลั่ว (`-1` = ตาม `BuddySettings.json`, `0` = Hardline Rep, `1` = eWallet, `2` = Bank, `3` = Free) |
-| `EditorJsonFiles` | `array<string>` | `[]` | รายชื่อไฟล์ `.json` ที่ส่งออกจาก **DayZ Editor** และนำมาวางไว้ในโฟลเดอร์ `$profile:DayZStory/AiBuddy/DLC/Gravedigger/Graves/` (เช่น `["cemetery_chernogorsk.json"]`) ระบบจะเสกทั้งพร็อพตกแต่งสุสานและหลุมศพ `DZS_BuddyGrave` ในไฟล์นั้นให้อัตโนมัติ! |
+| `EditorJsonFiles` | `array<string>` | `[]` | รายชื่อไฟล์ `.json` ที่ส่งออกจาก **DayZ Editor** และนำมาวางไว้ในโฟลเดอร์ `$profile:DayZStory/AiBuddy/DLC/Gravedigger/Graves/` (เช่น `["cemetery_chernogorsk.json"]`) ระบบจะเสกทั้งพร็อพตกแต่งสุสาน, หลุมศพ `DZS_BuddyGrave` (Target ขุดของ) และหากมีการวางคลาสตัวละคร `eAI_*` ในไฟล์ Editor ก็จะถูกเสกเป็น **NPC สัปเหร่อ** พร้อม Faction/Loadout/EmoteID (ดึงแม่แบบจาก `Gravediggers[0]`) ให้อัตโนมัติ! |
 | `Graves[]` | `array<object>` | `[{Position, Orientation, ClassName}]` | พิกัดหลุมศพ `DZS_BuddyGrave` ที่ต้องการวางเพิ่มด้วยการกรอกพิกัดเอง (หาก `Position` เป็น `[0,0,0]` จะข้ามไม่สปอน) |
 | `Gravediggers[]` | `array<object>` | `[{Name, Position, Orientation, Loadout, ClassName, EmoteID}]` | รายการจุดสปอน NPC สัปเหร่อ (โครงสร้างเดียวกับ `Contractors[]` ทุกประการ หาก `Position` เป็น `[0,0,0]` จะข้ามไม่สปอน) |
 

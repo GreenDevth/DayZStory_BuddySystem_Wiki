@@ -109,20 +109,21 @@
 
 ---
 
-## 5. วิธีนำไฟล์ฉากสุสานจาก DayZ Editor (`.json`) มาใช้ในระบบ `Gravedigger`
+## 5. วิธีนำไฟล์ฉากจาก DayZ Editor (`"EditorJsonFiles": []`) มาใช้กำหนดทั้ง Props, Target และ NPC (ครบทั้ง 3 โมดูล)
 
-แทนที่จะกรอกพิกัดหลุมศพทีละหลุม แอดมินสามารถเปิดโปรแกรม **DayZ Editor** เพื่อจัดฉากสุสาน (วางรั้ว, โคมไฟ, ป้ายหลุมศพ และวางวัตถุคลาส **`DZS_BuddyGrave`**) แล้วส่งออกเป็นไฟล์ `.json` มาใช้งานได้ทันที:
+ทั้ง 3 โมดูลที่มีการเสกวัตถุในโลกเกม (**Contractors**, **Gravedigger**, **Satellite**) รองรับตัวแปร `"EditorJsonFiles": []` ในไฟล์ `Setting.json` ของแต่ละโมดูลเหมือนกันทั้งหมด:
 
-1. ใน **DayZ Editor** ให้ค้นหาวัตถุชื่อ **`DZS_BuddyGrave`** แล้ววางเรียงไว้ในจุดสุสานที่คุณต้องการ (จะวางกี่หลุมก็ได้ ผู้เล่นสามารถเลือกขุดหลุมไหนก็ได้ที่อยู่ในรัศมี `CemeteryRadius` จากตัวสัปเหร่อ)
-2. กด **Export -> Save as JSON (`.json`)** เช่นตั้งชื่อไฟล์ว่า `my_cemetery.json`
-3. นำไฟล์ `my_cemetery.json` ไปวางไว้ในโฟลเดอร์เซิร์ฟเวอร์ที่:
-   ```text
-   $profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\my_cemetery.json
-   ```
-4. เปิดไฟล์ `$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Setting.json` แล้วใส่ชื่อไฟล์ลงใน `"EditorJsonFiles"`:
-   ```json
-   "EditorJsonFiles": [
-       "my_cemetery.json"
-   ]
-   ```
-5. เมื่อเซิร์ฟเวอร์เปิดขึ้นมา `BuddyGravediggerManager` จะอ่านไฟล์ `my_cemetery.json` และเสกทั้งวัตถุ `.p3d` ตกแต่งฉากและหลุมศพ `DZS_BuddyGrave` ทุกชิ้นให้โดยอัตโนมัติ!
+- **หากไม่ได้ใส่ไฟล์ (`"EditorJsonFiles": []` ว่างเปล่า):** ระบบจะโหลดค่าเริ่มต้นและเสกเฉพาะรายการที่ระบุพิกัด `Position` ไว้ใน `Setting.json` ตามปกติ (และหากรายการใดตั้ง `"Position": [0.0, 0.0, 0.0]` ระบบจะข้ามไม่เสกจุดนั้น)
+- **หากใส่ชื่อไฟล์ใน `"EditorJsonFiles": ["my_scene.json"]`:** ระบบจะอ่านไฟล์ `.json` ที่ Export จาก **DayZ Editor** โดยไม่ได้เสกแค่ Props ประกอบฉากเท่านั้น แต่ยังตรวจจับ **ClassName (`"name"`)** เพื่อตั้งค่าเป็น **NPC** และ **Target (จุดกดโต้ตอบ)** ให้อัตโนมัติ!
+
+### ตารางการตรวจจับ Props, Target และ NPC ในไฟล์ DayZ Editor (`.json`)
+
+| โมดูล และโฟลเดอร์วางไฟล์ `.json` | การวาง Props ประกอบฉาก | การวาง Target / จุดสำคัญใน DayZ Editor | การวาง NPC ใน DayZ Editor |
+| :--- | :--- | :--- | :--- |
+| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | โต๊ะ เก้าอี้ เต็นท์ วัตถุทั่วไปและ `.p3d` จะถูกเสกเป็นฉากประกอบ | *(Target ที่กดคุยคือตัว NPC Contractor โดยตรง)* | • **NPC นายหน้า:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Boris`) ระบบจะจับเข้า Faction `eAIFactionContractors`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึง `Loadout` / `EmoteID` / `Name` จากรายการแรก (`Contractors[0]`) ใน `Setting.json` มาใส่ให้อัตโนมัติ |
+| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | ซุ้มสุสาน รั้ว โคมไฟ ต้นไม้ `.p3d` จะถูกเสกเป็นฉากประกอบ | • **Target หลุมศพ:** วางวัตถุคลาส **`DZS_BuddyGrave`** กี่หลุมก็ได้ในรัศมี `CemeteryRadius` ผู้เล่นสามารถถือพลั่วสัปเหร่อไปกดขุด (`ActionDigBuddyGrave`) ได้ทุกหลุมทันที | • **NPC สัปเหร่อ:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Rolf`) ระบบจะจับเข้า Faction `eAIFactionGravediggers`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึง `Loadout` / `EmoteID` / `Name` จากรายการแรก (`Gravediggers[0]`) ใน `Setting.json` มาใส่ให้อัตโนมัติ (ผู้เล่นกดยืมพลั่วที่ตัว NPC ได้เลย) |
+| **3. Satellite**<br>`$profile:\DayZStory\AiBuddy\DLC\Satellite\Terminals\` | เต็นท์สื่อสาร เสาอากาศ วัตถุ `.p3d` จะถูกเสกเป็นฉากประกอบ | • **Target ตู้ดาวเทียม:** วาง **`DZS_SatelliteTerminal`** หรือ **`Land_Radio_PanelPAS`** ระบบจะลงทะเบียนเป็นจุดกดเปิดเมนู Satellite ทันที<br>• **จุดเกิดกล่องเคลมของ (Marker):** วาง **`eAI_SupplyCrate`** ไว้ใกล้ๆ ตู้ดาวเทียม (ในระยะ 50 เมตร) ระบบจะ**ไม่เสกกล่องเปล่าค้างไว้** แต่จะบันทึกพิกัดนั้นเป็น `ClaimBoxPosition` ของตู้ดาวเทียมที่อยู่ใกล้ที่สุดให้อัตโนมัติ! | *(ไม่มี NPC)* |
+
+> [!TIP]
+> **ทริคการใช้ไฟล์ DayZ Editor เพียงอย่างเดียวโดยไม่ให้พิกัดใน `Setting.json` เสกซ้ำ:**
+> หากคุณวางทั้ง Props, Target และ NPC ไว้ในไฟล์ DayZ Editor ครบแล้ว ให้ตั้งค่า `"Position": [0.0, 0.0, 0.0]` ในรายการ `Contractors[0]` / `Gravediggers[0]` / `Terminals[0]` ของไฟล์ `Setting.json` ได้เลย ระบบจะข้ามไม่เสกพิกัด `[0,0,0]` แต่ยังคงนำค่า `"Loadout"`, `"EmoteID"`, และ `"Name"` จากรายการแรกนั้นไปสวมใส่ให้กับ NPC ที่เสกมาจากไฟล์ DayZ Editor ครับ!

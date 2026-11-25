@@ -13,7 +13,8 @@ Managed by `DayZStory_Buddy_Core`. Spawns immortal Contractor NPCs (`eAIFactionC
 | `Enable` | `bool` (`0`/`1`) | `1` | `1` = Spawn Contractor NPCs listed in `Contractors[]`, `0` = Disable spawning. |
 | `IsPassive` | `bool` (`0`/`1`) | `0` | • `0` = Contractors defend themselves against zombies/hostiles.<br>• `1` = **100% Passive Mode:** Contractors never draw weapons or shoot anyone under any circumstances (ideal for Godmode safezones). |
 | `SpawnRadius` | `float` | `5.0` | Clearance radius around spawn point (meters). |
-| `Contractors[].Name` | `string` | `"Buddy Contractor"` | NPC group/display name. |
+| `EditorJsonFiles` | `array<string>` | `[]` | List of **DayZ Editor `.json` filenames** placed in `$profile:DayZStory/AiBuddy/DLC/Contractors/Scenes/` (or `Contractors/`).<br>• If empty `[]`: Only entries in `Contractors[]` with non-zero `Position` are spawned.<br>• If populated: Spawns all decorative props (`.p3d` / Objects) and automatically detects any `eAI_*` character class in the Editor JSON to spawn as a full **Contractor NPC** with `eAIFactionContractors`, Godmode, and the template `Loadout`/`EmoteID` from `Contractors[0]`! |
+| `Contractors[].Name` | `string` | `"Buddy Contractor"` | NPC group/display name (also used as the default name for Contractor NPCs spawned via `EditorJsonFiles` unless `customString` is set in DayZ Editor). |
 | `Contractors[].Position` | `[x, y, z]` | `[5120.0, 0.0, 5120.0]` | **Exact 3D Coordinates.** Uses your exact `Y` height without snapping to terrain so NPCs can stand on 2nd-floor balconies or custom platforms. Skipped if `[0.0, 0.0, 0.0]`. |
 | `Contractors[].Orientation` | `[yaw, pitch, roll]` | `[0.0, 0.0, 0.0]` | Facing direction in degrees. |
 | `Contractors[].Loadout` | `string` | `"HumanLoadout"` | Loadout filename from `ExpansionMod/Loadouts/`. |
@@ -36,7 +37,7 @@ Managed by `DayZStory_Buddy_Gravedigger`. Provides an immersive survival alterna
 | `RecoveryEconomyMode` | `int` | `-1` | Currency for the grave excavation fee (`-1` = Inherit `BuddySettings.json`, `0` = Hardline Rep, `1` = eWallet, `2` = Bank, `3` = Free). |
 | `ShovelBorrowCost` | `int` | `250` | Fee charged when borrowing a `DZS_GravediggerShovel` from the Gravedigger NPC (`0` = Free). |
 | `ShovelEconomyMode` | `int` | `-1` | Currency for the shovel rental fee (`-1` = Inherit `BuddySettings.json`, `0` = Hardline Rep, `1` = eWallet, `2` = Bank, `3` = Free). |
-| `EditorJsonFiles` | `array<string>` | `[]` | List of **DayZ Editor `.json` filenames** placed in `$profile:DayZStory/AiBuddy/DLC/Gravedigger/Graves/` (e.g. `["cherno_cemetery.json"]`). Automatically spawns both decorative `.p3d` props and `DZS_BuddyGrave` objects! |
+| `EditorJsonFiles` | `array<string>` | `[]` | List of **DayZ Editor `.json` filenames** placed in `$profile:DayZStory/AiBuddy/DLC/Gravedigger/Graves/` (e.g. `["cherno_cemetery.json"]`). Automatically spawns decorative `.p3d` props, `DZS_BuddyGrave` excavation targets, and any `eAI_*` character placed in the Editor file as a full **Gravedigger NPC** (inheriting `Loadout` & `EmoteID` from `Gravediggers[0]`)! |
 | `Graves[]` | `array<object>` | `[{Position, Orientation, ClassName}]` | Manually configured `DZS_BuddyGrave` coordinates (skipped if `Position` is `[0,0,0]`). |
 | `Gravediggers[]` | `array<object>` | `[{Name, Position, Orientation, Loadout, ClassName, EmoteID}]` | Gravedigger NPC spawn entries (skipped if `Position` is `[0,0,0]`). |
 
