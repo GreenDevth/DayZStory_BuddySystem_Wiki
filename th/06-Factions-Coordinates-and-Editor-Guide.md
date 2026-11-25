@@ -116,13 +116,20 @@
 - **หากไม่ได้ใส่ไฟล์ (`"EditorJsonFiles": []` ว่างเปล่า):** ระบบจะโหลดค่าเริ่มต้นและเสกเฉพาะรายการที่ระบุพิกัด `Position` ไว้ใน `Setting.json` ตามปกติ (และหากรายการใดตั้ง `"Position": [0.0, 0.0, 0.0]` ระบบจะข้ามไม่เสกจุดนั้น)
 - **หากใส่ชื่อไฟล์ใน `"EditorJsonFiles": ["my_scene.json"]`:** ระบบจะอ่านไฟล์ `.json` ที่ Export จาก **DayZ Editor** โดยไม่ได้เสกแค่ Props ประกอบฉากเท่านั้น แต่ยังตรวจจับ **ClassName (`"name"`)** เพื่อตั้งค่าเป็น **NPC** และ **Target (จุดกดโต้ตอบ)** ให้อัตโนมัติ!
 
-### ตารางการตรวจจับ Props, Target และ NPC ในไฟล์ DayZ Editor (`.json`)
+### ตารางการตรวจจับ Props, Target และ NPC ในไฟล์ DayZ Editor (`.json`) (ผ่าน `BuddyEditorSceneLoader` ใน Core)
 
-| โมดูล และโฟลเดอร์วางไฟล์ `.json` | การวาง Props ประกอบฉาก | การวาง Target / จุดสำคัญใน DayZ Editor | การวาง NPC ใน DayZ Editor |
+| โมดูล และโฟลเดอร์วางไฟล์ `.json` | การวาง Props ประกอบฉาก | การวาง Target / จุดสำคัญใน DayZ Editor | การวาง NPC ใน DayZ Editor (รองรับ `customString`) |
 | :--- | :--- | :--- | :--- |
-| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | โต๊ะ เก้าอี้ เต็นท์ วัตถุทั่วไปและ `.p3d` จะถูกเสกเป็นฉากประกอบ | *(Target ที่กดคุยคือตัว NPC Contractor โดยตรง)* | • **NPC นายหน้า:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Boris`) ระบบจะจับเข้า Faction `eAIFactionContractors`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึง `Loadout` / `EmoteID` / `Name` จากรายการแรก (`Contractors[0]`) ใน `Setting.json` มาใส่ให้อัตโนมัติ |
-| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | ซุ้มสุสาน รั้ว โคมไฟ ต้นไม้ `.p3d` จะถูกเสกเป็นฉากประกอบ | • **Target หลุมศพ:** วางวัตถุคลาส **`DZS_BuddyGrave`** กี่หลุมก็ได้ในรัศมี `CemeteryRadius` ผู้เล่นสามารถถือพลั่วสัปเหร่อไปกดขุด (`ActionDigBuddyGrave`) ได้ทุกหลุมทันที | • **NPC สัปเหร่อ:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Rolf`) ระบบจะจับเข้า Faction `eAIFactionGravediggers`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึง `Loadout` / `EmoteID` / `Name` จากรายการแรก (`Gravediggers[0]`) ใน `Setting.json` มาใส่ให้อัตโนมัติ (ผู้เล่นกดยืมพลั่วที่ตัว NPC ได้เลย) |
+| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | โต๊ะ เก้าอี้ เต็นท์ วัตถุทั่วไปและ `.p3d` จะถูกเสกเป็นฉากประกอบ | *(Target ที่กดคุยคือตัว NPC Contractor โดยตรง)* | • **NPC นายหน้า:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Boris`) ระบบจะจับเข้า Faction `eAIFactionContractors`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึงค่าเริ่มต้นจาก `Contractors[0]` (หรือปรับแต่งเฉพาะตัวผ่านช่อง `customString` รูปแบบ `"Name\|Loadout\|EmoteID"`) |
+| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | ซุ้มสุสาน รั้ว โคมไฟ ต้นไม้ `.p3d` จะถูกเสกเป็นฉากประกอบ | • **Target หลุมศพ:** วางวัตถุคลาส **`DZS_BuddyGrave`** กี่หลุมก็ได้ในรัศมี `CemeteryRadius` ผู้เล่นสามารถถือพลั่วสัปเหร่อไปกดขุด (`ActionDigBuddyGrave`) ได้ทุกหลุมทันที | • **NPC สัปเหร่อ:** วางตัวละครคลาสใดก็ได้ที่สืบทอดจาก `eAIBase` (เช่น `eAI_SurvivorM_Rolf`) ระบบจะจับเข้า Faction `eAIFactionGravediggers`, ตั้งเป็นอมตะ, ยืนประจำจุด และดึงค่าเริ่มต้นจาก `Gravediggers[0]` (หรือปรับแต่งเฉพาะตัวผ่านช่อง `customString` รูปแบบ `"Name\|Loadout\|EmoteID"`) |
 | **3. Satellite**<br>`$profile:\DayZStory\AiBuddy\DLC\Satellite\Terminals\` | เต็นท์สื่อสาร เสาอากาศ วัตถุ `.p3d` จะถูกเสกเป็นฉากประกอบ | • **Target ตู้ดาวเทียม:** วาง **`DZS_SatelliteTerminal`** หรือ **`Land_Radio_PanelPAS`** ระบบจะลงทะเบียนเป็นจุดกดเปิดเมนู Satellite ทันที<br>• **จุดเกิดกล่องเคลมของ (Marker):** วาง **`eAI_SupplyCrate`** ไว้ใกล้ๆ ตู้ดาวเทียม (ในระยะ 50 เมตร) ระบบจะ**ไม่เสกกล่องเปล่าค้างไว้** แต่จะบันทึกพิกัดนั้นเป็น `ClaimBoxPosition` ของตู้ดาวเทียมที่อยู่ใกล้ที่สุดให้อัตโนมัติ! | *(ไม่มี NPC)* |
+
+### การกำหนดชื่อ ชุดแต่งกาย และท่าทาง NPC เฉพาะตัวใน DayZ Editor ผ่านช่อง `customString`
+
+เมื่อคุณวางตัวละคร `eAI_*` ในโปรแกรม **DayZ Editor** คุณสามารถกำหนดค่าในช่อง **`customString`** ของตัวละครแต่ละตัวได้ในรูปแบบ **`"Name|Loadout|EmoteID"`**:
+- **ปล่อยว่าง `""`:** ระบบจะดึง `Name`, `Loadout`, และ `EmoteID` จากรายการแรก (`Contractors[0]` หรือ `Gravediggers[0]`) ในไฟล์ `Setting.json` มาใช้เป็นค่าเริ่มต้น
+- **ใส่เฉพาะชื่อ เช่น `"Boris Contractor"`:** เปลี่ยนชื่อ NPC เป็น `"Boris Contractor"` ส่วนชุดและท่าทางใช้ตาม `Setting.json`
+- **ใส่ครบทั้ง 3 ค่า เช่น `"Boris Contractor|MilitaryLoadout|44"`:** ตั้งชื่อเป็น `"Boris Contractor"`, สวมชุด `"MilitaryLoadout"`, และทำท่าทาง `EmoteID = 44` (ตะเบ๊ะวันทยหัตถ์) เฉพาะตัวละครตัวนั้นทันที!
 
 > [!TIP]
 > **ทริคการใช้ไฟล์ DayZ Editor เพียงอย่างเดียวโดยไม่ให้พิกัดใน `Setting.json` เสกซ้ำ:**

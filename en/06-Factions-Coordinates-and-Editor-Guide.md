@@ -79,13 +79,20 @@ All three world-spawning modules (**Contractors**, **Gravedigger**, and **Satell
 - **When `"EditorJsonFiles": []` is empty:** The module loads default settings and only spawns entries configured with a non-zero `Position` in `Setting.json` (any entry with `"Position": [0.0, 0.0, 0.0]` is safely skipped).
 - **When filenames are listed in `"EditorJsonFiles": ["my_scene.json"]`:** The spawner parses the exported **DayZ Editor `.json`** file and automatically distinguishes between **decorative props**, **interactive targets**, and **NPCs** based on each object's classname (`"name"`):
 
-### How DayZ Editor Objects Are Resolved Per Module
+### How DayZ Editor Objects Are Resolved Per Module (via Core `BuddyEditorSceneLoader`)
 
-| Module & Scene Folder | Decorative Props | Interactive Targets & Markers in DayZ Editor | NPCs in DayZ Editor |
+| Module & Scene Folder | Decorative Props | Interactive Targets & Markers in DayZ Editor | NPCs in DayZ Editor (`customString` Support) |
 | :--- | :--- | :--- | :--- |
-| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | Tables, chairs, tents, and `.p3d` static objects are spawned as scene props. | *(The Contractor NPC itself is the interaction target)* | • **Contractor NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Boris`). It is automatically spawned as an immortal stationary **Contractor NPC** in `eAIFactionContractors`, inheriting `Loadout`, `EmoteID`, and `Name` from `Contractors[0]` in `Setting.json`. |
-| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | Cemetery gates, fences, lamps, and `.p3d` static objects are spawned as scene props. | • **Excavation Graves:** Place as many **`DZS_BuddyGrave`** objects as desired within `CemeteryRadius`. Players can excavate any of them using a borrowed shovel (`ActionDigBuddyGrave`). | • **Gravedigger NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Rolf`). It is automatically spawned as an immortal stationary **Gravedigger NPC** in `eAIFactionGravediggers`, inheriting `Loadout`, `EmoteID`, and `Name` from `Gravediggers[0]` in `Setting.json`. |
+| **1. Contractors**<br>`$profile:\DayZStory\AiBuddy\DLC\Contractors\Scenes\` | Tables, chairs, tents, and `.p3d` static objects are spawned as scene props. | *(The Contractor NPC itself is the interaction target)* | • **Contractor NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Boris`). Automatically spawned as an immortal stationary **Contractor NPC** in `eAIFactionContractors`, inheriting defaults from `Contractors[0]` (or overridden per-NPC via `customString` `"Name\|Loadout\|EmoteID"`). |
+| **2. Gravedigger**<br>`$profile:\DayZStory\AiBuddy\DLC\Gravedigger\Graves\` | Cemetery gates, fences, lamps, and `.p3d` static objects are spawned as scene props. | • **Excavation Graves:** Place as many **`DZS_BuddyGrave`** objects as desired within `CemeteryRadius`. Players can excavate any of them using a borrowed shovel (`ActionDigBuddyGrave`). | • **Gravedigger NPC:** Place any character class inheriting from `eAIBase` (e.g., `eAI_SurvivorM_Rolf`). Automatically spawned as an immortal stationary **Gravedigger NPC** in `eAIFactionGravediggers`, inheriting defaults from `Gravediggers[0]` (or overridden per-NPC via `customString` `"Name\|Loadout\|EmoteID"`). |
 | **3. Satellite**<br>`$profile:\DayZStory\AiBuddy\DLC\Satellite\Terminals\` | Communication tents, antennas, and `.p3d` static objects are spawned as scene props. | • **Satellite Terminal:** Place **`DZS_SatelliteTerminal`** or **`Land_Radio_PanelPAS`** to register an interactive Satellite Terminal.<br>• **Claim Box Marker:** Place an **`eAI_SupplyCrate`** within 50m of a terminal in DayZ Editor. The system **does not spawn an empty crate**; instead, it records that exact position and orientation as the nearest terminal's `ClaimBoxPosition`! | *(No NPCs)* |
+
+### Per-NPC Customization in DayZ Editor via `customString` (`"Name|Loadout|EmoteID"`)
+
+When placing an `eAI_*` character in **DayZ Editor**, you can customize that individual NPC's name, loadout, and idle emote directly inside its **`customString`** property using the pipe-separated format **`"Name|Loadout|EmoteID"`**:
+- **Empty `""`:** Inherits `Name`, `Loadout`, and `EmoteID` from the first template entry (`Contractors[0]` or `Gravediggers[0]`) in `Setting.json`.
+- **Name only (e.g. `"Boris Contractor"`):** Sets the NPC's name to `"Boris Contractor"` while inheriting `Loadout` and `EmoteID` from `Setting.json`.
+- **Full override (e.g. `"Boris Contractor|MilitaryLoadout|44"`):** Sets the NPC's name to `"Boris Contractor"`, applies `"MilitaryLoadout"`, and plays `EmoteID = 44` (`ID_EMOTE_SALUTE`) on that specific NPC!
 
 > [!TIP]
 > **Using DayZ Editor Exclusively Without Duplicate Spawns:**
