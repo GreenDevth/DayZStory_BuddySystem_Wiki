@@ -56,6 +56,8 @@ flowchart TD
 | **10** | `DayZStory_Buddy_Admin.pbo` | Optional Utility | `cfggameplay.json` (`BuddyAdmins`) | Allows server admins to define buddy system administrator SteamIDs inside the mission's `cfggameplay.json` under `PlayerData.BuddyAdmins`. |
 | **11** | `DayZStory_Buddy_HardlineOverride.pbo` | Optional UI | *(No JSON)* | Replaces the default DayZ Expansion Hardline star icon on the bottom-right HUD with a custom coins icon (`coins.edds`). |
 | **12** | `DayZStory_Buddy_Dog_Compatible.pbo` & `Horse_Compatible.pbo` | Optional Compatibility | *(No JSON)* | Prevents AI companions from treating tamed dogs (`DayZ_Dog`) or horses as hostile wildlife targets. |
+| **13** | `DayZStory_Buddy_PvE.pbo` | Optional DLC | `cfggameplay.json` (`GroupData`) | Unified PvE/PvP, Friendly Fire, vehicle/boat ramming, traps, explosives, melee protection, and Party 3D Marker LOS (`PartyMarkerLOS`). |
+| **14** | `DayZStory_Buddy_Props.pbo` | Optional Props | *(No JSON)* | Military radio desk & field table prop pack (`DZS_Military_Radio`, `DZS_Military_Table`, etc.) with automated night desk lamp lighting. |
 
 ---
 

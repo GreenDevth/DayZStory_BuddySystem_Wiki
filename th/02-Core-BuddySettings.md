@@ -57,7 +57,8 @@
 | `m_MaxInsurancePolicies` | `int` | `3` | `0` = ซื้อสะสมได้ไม่จำกัด<br>`1` ขึ้นไป = จำนวนกรมธรรม์สูงสุดที่ผู้เล่นซื้อตุนไว้ได้ | ทุกครั้งที่เคลมกล่องสัมภาระบัดดี้ที่ตู้ดาวเทียม ระบบจะหักประกัน 1 ฉบับ (`-1 Policy`) |
 | `m_InsuranceMenuIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/shield_64x64.edds"` | พาธไฟล์ `.edds` หรือ `.paa` | ไอคอนที่แสดงในหน้าต่าง `BUDDY INSURANCE POLICY` บนตู้ดาวเทียม |
 | `m_InsuranceHUDIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/persona_64x64.edds"` | พาธไฟล์ `.edds` หรือ `.paa` | ไอคอนสถานะประกันภัยที่แสดงบริเวณมุมขวาล่างของหน้าจอผู้เล่น (เมื่อผู้เล่นมีประกัน `>= 1` ฉบับ) |
-| `m_SatelliteTerminalClasses` | `array<string>` | `["DZS_SatelliteTerminal", "Land_Radio_PanelPAS"]` | รายชื่อ ClassName ของวัตถุในเกม | รายชื่อวัตถุที่ผู้เล่นสามารถเดินเข้าไปกดเปิดเมนู **Satellite Emergency Terminal** ได้ (สามารถเพิ่ม ClassName ของคอมพิวเตอร์หรือตู้วิทยุอื่นในแมพได้) |
+| `m_SatelliteTerminalClasses` | `array<string>` | `["DZS_SatelliteTerminal:component12", "Land_Radio_PanelPAS"]` | รายชื่อ ClassName (รองรับ `"ClassName:ComponentName"`) | รายชื่อวัตถุ (และ Component เฉพาะจุดหากระบุหลัง `:`) ที่ผู้เล่นสามารถกดเปิดเมนู **Satellite Emergency Terminal** ได้ |
+| `m_ContractorObjectClasses` | `array<string>` | `[]` | รายชื่อ ClassName (รองรับ `"ClassName:ComponentName"`) | รายชื่อ Object/Prop ที่ผู้เล่นสามารถกดเปิดหน้าต่างจ้างบัดดี้ (`Talk to Buddy Contractor`) แทนการคุยกับ NPC ได้ |
 
 ---
 

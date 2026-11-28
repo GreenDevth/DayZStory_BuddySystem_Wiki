@@ -56,6 +56,8 @@ flowchart TD
 | **10** | `DayZStory_Buddy_Admin.pbo` | เสริม (Optional Utility) | `cfggameplay.json` (`BuddyAdmins`) | ช่วยให้แอดมินสามารถกำหนดรายชื่อ SteamID ของแอดมินระบบบัดดี้ไว้ในไฟล์ `cfggameplay.json` ของเซิร์ฟเวอร์ได้โดยตรง |
 | **11** | `DayZStory_Buddy_HardlineOverride.pbo` | เสริม (Optional UI) | *(ไม่มี JSON)* | เปลี่ยนไอคอนชื่อเสียง (Reputation) มุมขวาล่างของ `DayZExpansion_Hardline` จากรูปดาวเป็นรูปเหรียญ (`coins.edds`) |
 | **12** | `DayZStory_Buddy_Dog_Compatible.pbo` & `Horse_Compatible.pbo` | เสริม (Compatibility) | *(ไม่มี JSON)* | ป้องกันไม่ให้ AI บัดดี้มองสุนัขเลี้ยง (`DayZ_Dog`) หรือม้าในเซิร์ฟเวอร์เป็นสัตว์ป่าที่ต้องยิงล่า |
+| **13** | `DayZStory_Buddy_PvE.pbo` | เสริม (Optional DLC) | `cfggameplay.json` (`GroupData`) | ระบบ PvE/PvP, Friendly Fire, กันรถ/เรือชน, กับดัก, ระเบิด, หมัดมวย และ Party 3D Marker LOS (`PartyMarkerLOS`) |
+| **14** | `DayZStory_Buddy_Props.pbo` | เสริม (Optional Props) | *(ไม่มี JSON)* | ชุดโมเดลและพร็อพโต๊ะวิทยุทหาร (`DZS_Military_Radio`, `DZS_Military_Table` ฯลฯ) พร้อมระบบแสงไฟโคมไฟ |
 
 ---
 

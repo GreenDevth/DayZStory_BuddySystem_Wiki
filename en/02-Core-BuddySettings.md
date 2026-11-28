@@ -57,7 +57,8 @@ These variables define how your server handles companion persistence when player
 | `m_MaxInsurancePolicies` | `int` | `3` | `0` = Unlimited<br>`1+` = Maximum policies a player can stack | Maximum number of policies a player can hold at once. Each gear recovery claim consumes 1 policy (`-1 Policy`). |
 | `m_InsuranceMenuIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/shield_64x64.edds"` | Any valid `.edds` or `.paa` path | Icon displayed inside the `BUDDY INSURANCE POLICY` sub-window. |
 | `m_InsuranceHUDIconPath` | `string` | `"DayZExpansion/Core/GUI/icons/hud/persona_64x64.edds"` | Any valid `.edds` or `.paa` path | Icon displayed on the bottom-right player HUD when holding `>= 1` insurance policy. |
-| `m_SatelliteTerminalClasses` | `array<string>` | `["DZS_SatelliteTerminal", "Land_Radio_PanelPAS"]` | Array of object classnames | World objects that display the `Open Satellite Terminal` action when approached. |
+| `m_SatelliteTerminalClasses` | `array<string>` | `["DZS_SatelliteTerminal:component12", "Land_Radio_PanelPAS"]` | Array of `"ClassName"` or `"ClassName:ComponentName"` | World objects (and optional specific component after `:`) that display the `Access Satellite` action. |
+| `m_ContractorObjectClasses` | `array<string>` | `[]` | Array of `"ClassName"` or `"ClassName:ComponentName"` | World objects/props that allow opening the Buddy Contractor recruitment menu without spawning an AI NPC. |
 
 ---
 
